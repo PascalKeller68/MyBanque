@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device.width, initial.scale=1">
+		<link href='bootstrap/dist/css/bootstrap.min.css'>>
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+				<a class="navbar-brand" href="#">My Banque</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarColor01">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Accueil
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Se connecter</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Créer un compte</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Comptes</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Opérations</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#">Dépots</a>
+								<a class="dropdown-item" href="#">Virements</a>
+								<a class="dropdown-item" href="#">Ajouter un bénéficiare</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Supprimer son compte</a>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Tableau de bord</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		{% block body %}{% endblock %}
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</body>
+</html>
