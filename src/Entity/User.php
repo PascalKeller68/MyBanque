@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -64,6 +66,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $validation;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Roles::class, mappedBy="rolesUser")
+     */
+    private $rolesUtilisateur;
+
+    public function __construct()
+    {
+        $this->rolesUtilisateur = new ArrayCollection();
+    }
 
     public function getUsername()
     {
@@ -169,6 +181,40 @@ class User implements UserInterface
     }
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roleArray = $this->getRolesUtilisateur()->getValues();
+        $array = [];
+
+        foreach ($roleArray as $role) {
+            $array[] = $role->getRoleName();
+        }
+
+        return $array;
+    }
+
+    /**
+     * @return Collection|Roles[]
+     */
+    public function getRolesUtilisateur(): Collection
+    {
+        return $this->rolesUtilisateur;
+    }
+
+    public function addRolesUtilisateur(Roles $rolesUtilisateur): self
+    {
+        if (!$this->rolesUtilisateur->contains($rolesUtilisateur)) {
+            $this->rolesUtilisateur[] = $rolesUtilisateur;
+            $rolesUtilisateur->addRolesUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRolesUtilisateur(Roles $rolesUtilisateur): self
+    {
+        if ($this->rolesUtilisateur->removeElement($rolesUtilisateur)) {
+            $rolesUtilisateur->removeRolesUser($this);
+        }
+
+        return $this;
     }
 }

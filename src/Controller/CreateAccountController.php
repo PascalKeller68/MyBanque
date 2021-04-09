@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Roles;
 use App\Form\CreateAccountType;
+use App\Repository\RolesRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,17 +15,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class CreateAccountController extends AbstractController
 {
+
     #[Route('/creercompte', name: 'createaccount')]
     public function registration(Request $request, ManagerRegistry $manager, UserPasswordEncoderInterface $encoder)
     {
 
         $user = new User();
+
+        $rolesRepository = $this->getDoctrine()->getRepository(Roles::class);
+        $role = $rolesRepository->findOneBy(['roleName' => 'ROLE_USER']);
+
+        $user->addRolesUtilisateur($role);
+
         $formRegistration = $this->createForm(CreateAccountType::class, $user);
 
         $formRegistration->handleRequest($request);
         // $user->setRole(1);
+        $user->getRolesUtilisateur(1);
         $user->setValidation(false);
 
         if ($formRegistration->isSubmitted() && $formRegistration->isValid()) {
