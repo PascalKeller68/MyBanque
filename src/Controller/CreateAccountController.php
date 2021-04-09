@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CreateAccountType;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateAccountController extends AbstractController
@@ -22,7 +23,7 @@ class CreateAccountController extends AbstractController
         $formRegistration = $this->createForm(CreateAccountType::class, $user);
 
         $formRegistration->handleRequest($request);
-        $user->setRole(1);
+        // $user->setRole(1);
         $user->setValidation(false);
 
         if ($formRegistration->isSubmitted() && $formRegistration->isValid()) {
@@ -34,7 +35,7 @@ class CreateAccountController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('newLogin');
         }
 
         return $this->render(
@@ -43,9 +44,26 @@ class CreateAccountController extends AbstractController
         );
     }
 
-    #[Route('/connexion', name: 'login')]
-    public function login()
+    #[Route('/connexion', name: 'newLogin')]
+    public function newLogin(AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('create_account\login.html.twig');
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $mail = $authenticationUtils->getLastUsername();
+
+        return $this->render(
+            'create_account\login.html.twig',
+            [
+                'mail' => $mail,
+                'error' => $error,
+            ]
+        );
+    }
+
+    #[Route('/deconnexion', name: 'Logout')]
+    public function logout()
+    {
     }
 }

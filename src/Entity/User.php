@@ -43,7 +43,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
-     *      min = 8,
+     *      min = 4,
      *      max = 50,
      *      minMessage = "Vous devez entrer au moins {{ limit }} caractères",
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
@@ -54,11 +54,6 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password", message="Votre mot de passe n'est pas identique")
      */
     private $confirmPassword;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $role;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -72,6 +67,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
+        return $this->firstname;
     }
 
     public function getId(): ?int
@@ -136,17 +132,6 @@ class User implements UserInterface
     public function setConfirmPassword(string $confirmPassword): self
     {
         $this->confirmPassword = $confirmPassword;
-
-        return $this;
-    }
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
-
-    public function setRole(int $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

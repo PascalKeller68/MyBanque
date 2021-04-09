@@ -8,7 +8,7 @@ security:
         users_in_memory: { memory: null }
         in_database:
             entity:
-                class: App\entity\User
+                class: App\Entity\User
                 property: mail
     firewalls:
         dev:
@@ -17,7 +17,18 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
+            #provider: users_in_memory
+            provider: in_database
+            form_login:
+                login_path: newLogin
+                check_path: newLogin
+                default_target_path: listeCompte
+
+            logout:
+                path: Logout
+                target: home
+                
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
