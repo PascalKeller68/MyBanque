@@ -37,6 +37,8 @@ class Transaction
      */
     private $connectBank;
 
+    private $choixBank;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +88,18 @@ class Transaction
     public function setConnectBank(?Bank $connectBank): self
     {
         $this->connectBank = $connectBank;
+
+        return $this;
+    }
+
+    public function getChoixBank(): ?Bank
+    {
+        return $this->choixBank;
+    }
+
+    public function setChoixBank(?Bank $choixBank): self
+    {
+        $this->choixBank = $choixBank;
 
         return $this;
     }

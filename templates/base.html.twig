@@ -42,7 +42,7 @@
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Opérations</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="{{ path('virement') }}">Virements</a>
-									<a class="dropdown-item" href="#">Ajouter un bénéficiare</a>
+									<a class="dropdown-item" href="{{ path('create_beneficiary') }}">Ajouter un bénéficiare</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="#">Supprimer son compte</a>
 								</div>
@@ -50,7 +50,7 @@
 						{% endif %}
 
 						<li class="nav-item">
-							<a class="nav-link" href="#">Tableau de bord</a>
+							<a class="nav-link" href="{{ path('dashboard')}}">Tableau de bord</a>
 						</li>
 
 						{% if not app.user %}

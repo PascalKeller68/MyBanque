@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<div class="table-responsive-md col-6">
+			<table class="table table-hover">
+				<caption></caption>
+				<thead>
+					<tr class="table-active">
+						<th scope="col">Nom du client</th>
+						<th scope="col">prénom du client</th>
+						<th scope="col">Etat</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for user in users %}
+						<tr>
+							{% if user.validation == 0 %}
+								<th scope="row">
+									{{ user.firstname|e }}
+								</th>
+								<td>{{ user.lastname|e }}</td>
+								<td>
+									<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
+									<a href="{{ path('suppressionUtilisateur', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
+								</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+
+	{% endblock %}

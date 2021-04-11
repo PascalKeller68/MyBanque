@@ -19,9 +19,8 @@ class AccountController extends AbstractController
             ->getRepository(User::class)
             ->find($this->getUser()->getId());
 
-        $bank = $this->getDoctrine()
-            ->getRepository(Bank::class)
-            ->findAll();
+        $bank = $this->getDoctrine()->getRepository(Bank::class)->findBy(['connectAccount' => $user]);
+
 
         //dd($bank);
 

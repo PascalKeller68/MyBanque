@@ -14,7 +14,7 @@ class AddBeneficiaryType extends AbstractType
         $builder
             ->add('name')
             ->add('lastName')
-            ->add('validation')
+            //->add('validation')
             //->add('connectUser')
         ;
     }
