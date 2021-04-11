@@ -72,9 +72,21 @@ class User implements UserInterface
      */
     private $rolesUtilisateur;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Bank::class, mappedBy="connectAccount")
+     */
+    private $banks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="connectUser")
+     */
+    private $beneficiaries;
+
     public function __construct()
     {
         $this->rolesUtilisateur = new ArrayCollection();
+        $this->banks = new ArrayCollection();
+        $this->beneficiaries = new ArrayCollection();
     }
 
     public function getUsername()
@@ -213,6 +225,66 @@ class User implements UserInterface
     {
         if ($this->rolesUtilisateur->removeElement($rolesUtilisateur)) {
             $rolesUtilisateur->removeRolesUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bank[]
+     */
+    public function getBanks(): Collection
+    {
+        return $this->banks;
+    }
+
+    public function addBank(Bank $bank): self
+    {
+        if (!$this->banks->contains($bank)) {
+            $this->banks[] = $bank;
+            $bank->setConnectAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBank(Bank $bank): self
+    {
+        if ($this->banks->removeElement($bank)) {
+            // set the owning side to null (unless already changed)
+            if ($bank->getConnectAccount() === $this) {
+                $bank->setConnectAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Beneficiary[]
+     */
+    public function getBeneficiaries(): Collection
+    {
+        return $this->beneficiaries;
+    }
+
+    public function addBeneficiary(Beneficiary $beneficiary): self
+    {
+        if (!$this->beneficiaries->contains($beneficiary)) {
+            $this->beneficiaries[] = $beneficiary;
+            $beneficiary->setConnectUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(Beneficiary $beneficiary): self
+    {
+        if ($this->beneficiaries->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getConnectUser() === $this) {
+                $beneficiary->setConnectUser(null);
+            }
         }
 
         return $this;

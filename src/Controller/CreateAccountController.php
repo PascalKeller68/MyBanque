@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bank;
 use App\Entity\User;
 use App\Entity\Roles;
 use App\Form\CreateAccountType;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
+
 class CreateAccountController extends AbstractController
 {
 
@@ -25,10 +27,21 @@ class CreateAccountController extends AbstractController
 
         $user = new User();
 
+
         $rolesRepository = $this->getDoctrine()->getRepository(Roles::class);
         $role = $rolesRepository->findOneBy(['roleName' => 'ROLE_USER']);
 
         $user->addRolesUtilisateur($role);
+
+        //Creation de compte bancaire
+        $bank = new Bank();
+        $bank->setBankName('Compte Courant');
+        $bank->setBankBalance(1500);
+
+
+        $bankA = new Bank();
+        $bankA->setBankName('Livret A');
+        $bankA->setBankBalance(2500);
 
         $formRegistration = $this->createForm(CreateAccountType::class, $user);
 
@@ -44,7 +57,14 @@ class CreateAccountController extends AbstractController
             $user->setPassword($hash);
 
             $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($bank);
+            $manager->persist($bankA);
+
+            $user->addBank($bank);
+            $user->addBank($bankA);
             $manager->persist($user);
+
             $manager->flush();
             return $this->redirectToRoute('newLogin');
         }

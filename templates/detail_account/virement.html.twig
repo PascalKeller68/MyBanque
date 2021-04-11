@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Virement
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<div class="d-flex justify-content-center">
+			<div>
+				<h1>Virement</h1>
+
+				<form action="" method="post">
+					<div class="form-group">
+						<div>
+							<label>Selectionner un compte</label>
+						</div>
+						<div>
+							<select class="form-control">
+								{% for bank in banks %}
+									<option>
+										{{bank.bankName}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div>
+							<label>Selectionner un bénéficiaire</label>
+						</div>
+						<div>
+							<select class="form-control">
+								{% for bank in banks %}
+									<option>
+										{{bank.bankName}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div>
+							<input class="form-control" type="text" placeholder="Description du virement">
+						</div>
+						<div>
+							<input class="form-control" type="text" placeholder="Montant du virement">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Valider</button>
+						<button type="button" class="btn btn-danger">Annuler</button>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
