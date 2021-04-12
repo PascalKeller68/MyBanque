@@ -25,7 +25,7 @@ class Bank
     private $bankName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float", length=255)
      */
     private $bankBalance;
 
@@ -61,12 +61,12 @@ class Bank
         return $this;
     }
 
-    public function getBankBalance(): ?string
+    public function getBankBalance(): ?float
     {
         return $this->bankBalance;
     }
 
-    public function setBankBalance(string $bankBalance): self
+    public function setBankBalance(float $bankBalance): self
     {
         $this->bankBalance = $bankBalance;
 

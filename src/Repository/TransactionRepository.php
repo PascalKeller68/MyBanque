@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Transaction;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,19 @@ class TransactionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Transaction::class);
+    }
+
+
+
+    /**
+     * @param string|null $term
+     */
+    public function getWithSearchQueryBuilder(): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        return $qb
+            ->orderBy('t.id', 'DESC');
     }
 
     // /**

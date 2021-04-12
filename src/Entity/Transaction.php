@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\TransactionRepository;
+use App\Entity\Beneficiary;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TransactionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -23,14 +25,15 @@ class Transaction
     private $description;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
+     * @Assert\GreaterThanOrEqual(0)
      */
     private $debit;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="transactionBeneficiary")
      */
-    private $credit;
+    private $beneficiaryTransaction;
 
     /**
      * @ORM\ManyToOne(targetEntity=Bank::class, inversedBy="transactions")
@@ -38,6 +41,7 @@ class Transaction
     private $connectBank;
 
     private $choixBank;
+    private $choixBeneficiary;
 
     public function getId(): ?int
     {
@@ -56,26 +60,26 @@ class Transaction
         return $this;
     }
 
-    public function getDebit(): ?int
+    public function getDebit(): ?float
     {
         return $this->debit;
     }
 
-    public function setDebit(?int $debit): self
+    public function setDebit(?float $debit): self
     {
         $this->debit = $debit;
 
         return $this;
     }
 
-    public function getCredit(): ?int
+    public function getBeneficiaryTransaction(): ?Beneficiary
     {
-        return $this->credit;
+        return $this->beneficiaryTransaction;
     }
 
-    public function setCredit(?int $credit): self
+    public function setBeneficiaryTransaction(?Beneficiary $beneficiaryTransaction): self
     {
-        $this->credit = $credit;
+        $this->beneficiaryTransaction = $beneficiaryTransaction;
 
         return $this;
     }
@@ -100,6 +104,18 @@ class Transaction
     public function setChoixBank(?Bank $choixBank): self
     {
         $this->choixBank = $choixBank;
+
+        return $this;
+    }
+
+    public function getChoixBeneficiary(): ?Beneficiary
+    {
+        return $this->choixBeneficiary;
+    }
+
+    public function setChoixBeneficiary(?Beneficiary $choixBeneficiary): self
+    {
+        $this->choixBeneficiary = $choixBeneficiary;
 
         return $this;
     }

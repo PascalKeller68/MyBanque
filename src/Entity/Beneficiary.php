@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BeneficiaryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BeneficiaryRepository;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
@@ -36,6 +37,11 @@ class Beneficiary
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="beneficiaries")
      */
     private $connectUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="beneficiaryTransaction")
+     */
+    private $transactionBeneficiary;
 
     public function getId(): ?int
     {
@@ -86,6 +92,36 @@ class Beneficiary
     public function setConnectUser(?User $connectUser): self
     {
         $this->connectUser = $connectUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactionBeneficiary(): Collection
+    {
+        return $this->transactionBeneficiary;
+    }
+
+    public function addTransactionBeneficiary(Transaction $idTransactionBeneficiary): self
+    {
+        if (!$this->transactionBeneficiary->contains($idTransactionBeneficiary)) {
+            $this->transactionBeneficiary[] = $idTransactionBeneficiary;
+            $idTransactionBeneficiary->setBeneficiaryTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionBeneficiary(Transaction $idTransactionBeneficiary): self
+    {
+        if ($this->transactionBeneficiary->removeElement($idTransactionBeneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($idTransactionBeneficiary->getBeneficiaryTransaction() === $this) {
+                $idTransactionBeneficiary->setBeneficiaryTransaction(null);
+            }
+        }
 
         return $this;
     }

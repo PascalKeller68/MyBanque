@@ -5,36 +5,75 @@
 
 {% block body %}
 	<div class="container">
+		<div class="col-12">
 
-		<div class="table-responsive-md col-6">
-			<table class="table table-hover">
-				<caption></caption>
-				<thead>
-					<tr class="table-active">
-						<th scope="col">Nom du client</th>
-						<th scope="col">prénom du client</th>
-						<th scope="col">Etat</th>
-					</tr>
-				</thead>
-				<tbody>
+			<div class="table-responsive-md">
+				<table class="table table-hover">
+					<caption></caption>
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom du client</th>
+							<th scope="col">prénom du client</th>
+							<th scope="col">Etat</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for user in users %}
+							<tr>
 
-					{% for user in users %}
-						<tr>
-							{% if user.validation == 0 %}
-								<th scope="row">
-									{{ user.firstname|e }}
-								</th>
-								<td>{{ user.lastname|e }}</td>
-								<td>
-									<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
-									<a href="{{ path('suppressionUtilisateur', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
-								</td>
+								{% if (user.validation == 0) %}
+									<th scope="row">
+										{{ user.firstname|e }}
+									</th>
+									<td>{{ user.lastname|e }}</td>
+									<td>
+										<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
+										<a href="{{ path('suppressionUtilisateur', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
+									</td>
+								{% endif %}
 							</tr>
-						{% endif %}
-					{% endfor %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 
-				</tbody>
-			</table>
+			<div class="table-responsive-md">
+				<table class="table table-hover">
+					<caption></caption>
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom du client</th>
+							<th scope="col">Nom du bénéficiaire</th>
+							<th scope="col">prénom du bénéficiaire</th>
+							<th scope="col">Etat</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for beneficiary in beneficiarys %}
+							<tr>
+
+								{% if (beneficiary.validation == 0) %}
+
+									{% set idUser = beneficiary.connectUser.id %}
+
+									<th scope="row">
+										{{ beneficiary.connectUser.firstname|e }}
+									</th>
+									<th>
+										{{ beneficiary.name|e }}
+									</th>
+									<td>{{ beneficiary.lastname|e }}</td>
+									<td>
+										<a href="{{ path('validationBeneficiaire', {id: beneficiary.id} )}}" class="btn btn-success">Valider</a>
+
+										<a href="{{ path('suppressionBeneficiaire', {id: beneficiary.id} )}}" class="btn btn-danger">Supprimer</a>
+									</td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 	{% endblock %}

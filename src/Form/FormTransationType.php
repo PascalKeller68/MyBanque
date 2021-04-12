@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Bank;
+use App\Entity\Beneficiary;
 use App\Entity\User;
 use App\Entity\Transaction;
 use Doctrine\ORM\EntityRepository;
@@ -47,6 +48,24 @@ class FormTransationType extends AbstractType
                 'choice_value' => 'id',
                 'choice_label' => function (?Bank $banks) {
                     return $banks ? strtoupper($banks->getBankName()) : '';
+                },
+            ])
+
+            ->add('choixBeneficiary', EntityType::class, [
+                'class' => Beneficiary::class,
+                'query_builder' => function (EntityRepository $er) {
+                    $q = $er->createQueryBuilder('b');
+                    return $q->select('b')
+                        ->from(User::class, 'u')
+                        ->where('u.id = b.connectUser')
+                        ->andWhere('u.mail = :mail')
+                        ->andWhere('b.validation = 1')
+                        ->orderBy('b.name', 'ASC')
+                        ->setParameter('mail', $this->token->getToken()->getUser()->getUsername());
+                },
+                'choice_value' => 'id',
+                'choice_label' => function (?Beneficiary $beneficiarys) {
+                    return $beneficiarys ? strtoupper($beneficiarys->getName() . " " . $beneficiarys->getLastName()) : '';
                 },
             ])
             //->add('credit')

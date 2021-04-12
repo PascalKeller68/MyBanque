@@ -73,4 +73,36 @@ class DashboardController extends AbstractController
         $manager->flush();
         return $this->redirectToRoute('dashboard');
     }
+
+    #[Route('/dashboard/addBene/{id}', name: 'validationBeneficiaire')]
+    public function validationBeneficiary($id, ManagerRegistry $manager)
+    {
+
+
+        $beneficiary = $this->getDoctrine()
+            ->getRepository(Beneficiary::class)
+            ->find($id);
+
+        $beneficiary->setValidation(1);
+
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($beneficiary);
+        $manager->flush();
+        return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/dashboard/removeBene/{id}', name: 'suppressionBeneficiaire')]
+    public function suppressionBeneficiary($id, ManagerRegistry $manager)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        $beneficiary = $this->getDoctrine()
+            ->getRepository(Beneficiary::class)
+            ->find($id);
+
+        $manager->remove($beneficiary);
+        $manager->flush();
+        return $this->redirectToRoute('dashboard');
+    }
 }

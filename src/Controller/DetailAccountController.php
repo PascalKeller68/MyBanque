@@ -7,18 +7,34 @@ use App\Entity\User;
 use App\Entity\Beneficiary;
 use App\Entity\Transaction;
 use App\Form\FormTransationType;
+use App\Repository\TransactionRepository;
+
+use function Symfony\Component\String\s;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+
+
 class DetailAccountController extends AbstractController
 {
     #[Route('/detailaccount/{id}', name: 'detailAccount')]
-    public function index($id): Response
+    public function index($id, PaginatorInterface $paginator, TransactionRepository $repository, Request $request): Response
     {
+
+
+        $queryBuilder = $repository->getWithSearchQueryBuilder();
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
         $bank = $this->getDoctrine()
             ->getRepository(Bank::class)
             ->find($id);
@@ -28,9 +44,11 @@ class DetailAccountController extends AbstractController
             ->findAll($bank);
 
 
-        return $this->render('detail_account/index.html.twig', [
+        return $this->render('detail_account/details.html.twig', [
             'controller_name' => 'DetailAccountController',
-            'tablesTransaction' => $tabletransation
+            'tablesTransaction' => $tabletransation,
+            'bank' => $bank,
+            'pagination' => $pagination
         ]);
     }
 
@@ -58,8 +76,19 @@ class DetailAccountController extends AbstractController
 
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $array =  $request->request->get('form_transation');
+            //dd($array);
 
             $bankId = $propertyAccessor->getValue($array, '[choixBank]');
+
+            //dd($bankId);
+            $beneficiaryId = $propertyAccessor->getValue($array, '[choixBeneficiary]');
+            $debit = $propertyAccessor->getValue($array, '[debit]');
+            $debit = (float) s($debit)->replace(",", ".")->toString();
+
+
+
+
+            //dd($beneficiaryId);
 
             //dd($propertyAccessor->getValue($array, '[choixBank]'));
 
@@ -70,8 +99,19 @@ class DetailAccountController extends AbstractController
                 ->getRepository(Bank::class)
                 ->find($bankId);
 
+            $beneficiary = $this->getDoctrine()
+                ->getRepository(Beneficiary::class)
+                ->find($beneficiaryId);
+
+
 
             $transaction->setConnectBank($bank);
+            $transaction->setBeneficiaryTransaction($beneficiary);
+
+            $balanceNow = $bank->getBankBalance();
+            $newBalance = $balanceNow - $debit;
+
+            $bank->setBankBalance($newBalance);
 
             //$bank->addTransation($inforequest);
 

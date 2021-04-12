@@ -29,7 +29,7 @@ final class Version20210409144345 extends AbstractMigration
         $this->addSql('INSERT INTO roles (role_name) VALUES ("ROLE_USER")');
         $this->addSql('INSERT INTO roles (role_name) VALUES ("ROLE_ADMIN")');
         $this->addSql('INSERT INTO user (firstname, lastname, mail, password, identity_file, validation) 
-                                    VALUES ("admin", "admin", "admin@symphony.fr", "$2y$12$dPQARqCG4Dc/yBZOtuIVq.Tnc4PNuu58eKASwibejQn8HZ3dZ38JC ", "nothing", 1)');
+                                    VALUES ("admin", "admin", "admin@symfony.fr", "$2a$12$LRYlS6grzmtOycCLzA7sEu5cGdVG8FrcynP5Nu0NgXGQVeZEE44Im", "nothing", 1)');
         $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 1)');
     }
 
