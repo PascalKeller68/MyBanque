@@ -23,31 +23,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DetailAccountController extends AbstractController
 {
-    #[Route('/detailaccount/{id}', name: 'detailAccount')]
-    public function index($id, PaginatorInterface $paginator, TransactionRepository $repository, Request $request): Response
-    {
-
-        $bank = $this->getDoctrine()
-            ->getRepository(Bank::class)
-            ->find($id);
-
-        $queryBuilder = $repository->getQueryBuilderByBankId($bank->getId());
-        $pagination = $paginator->paginate(
-            $queryBuilder, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            5/*limit per page*/
-        );
-
-        return $this->render('detail_account/details.html.twig', [
-            'controller_name' => 'DetailAccountController',
-            'bank' => $bank,
-            'pagination' => $pagination
-        ]);
-    }
 
 
-
-    #[Route('/virement', name: 'virement')]
+    #[Route('/detailaccount/virement', name: 'virement')]
     public function virement(Request $request, ManagerRegistry $manager)
     {
 
@@ -122,6 +100,28 @@ class DetailAccountController extends AbstractController
         ]);
     }
 
+
+    #[Route('/detailaccount/{id}', name: 'detailAccount')]
+    public function index($id, PaginatorInterface $paginator, TransactionRepository $repository, Request $request): Response
+    {
+
+        $bank = $this->getDoctrine()
+            ->getRepository(Bank::class)
+            ->find($id);
+
+        $queryBuilder = $repository->getQueryBuilderByBankId($bank->getId());
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+        return $this->render('detail_account/details.html.twig', [
+            'controller_name' => 'DetailAccountController',
+            'bank' => $bank,
+            'pagination' => $pagination
+        ]);
+    }
     // #[Route('/depot', name: 'depot')]
     // public function depot(ManagerRegistry $manager)
     // {
