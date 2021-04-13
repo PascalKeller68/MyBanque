@@ -13,7 +13,8 @@
 					<thead>
 						<tr class="table-active">
 							<th scope="col">Nom du client</th>
-							<th scope="col">prénom du client</th>
+							<th scope="col">Prénom du client</th>
+							<th scope="col">Carte d'identité</th>
 							<th scope="col">Etat</th>
 						</tr>
 					</thead>
@@ -26,6 +27,9 @@
 										{{ user.firstname|e }}
 									</th>
 									<td>{{ user.lastname|e }}</td>
+									<td>
+										<a href="{{ asset('uploads/identity/' ~ user.identityFile) }}">{{ user.identityFile|e }}</a>
+									</td>
 									<td>
 										<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
 										<a href="{{ path('suppressionUtilisateur', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
@@ -54,8 +58,6 @@
 
 								{% if (beneficiary.validation == 0) %}
 
-									{% set idUser = beneficiary.connectUser.id %}
-
 									<th scope="row">
 										{{ beneficiary.connectUser.firstname|e }}
 									</th>
@@ -74,6 +76,43 @@
 					</tbody>
 				</table>
 			</div>
+
+			<div class="table-responsive-md">
+				<table class="table table-hover">
+					<caption></caption>
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom du client</th>
+							<th scope="col">Fichier de demande de suppression</th>
+							<th scope="col">Etat</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for delUser in delUsers %}
+							<tr>
+
+
+								<th scope="row">
+									{{ delUser.connectUserDel.firstname|e }}
+									{{ delUser.connectUserDel.lastname|e }}
+								</th>
+
+								<td>
+									<a href="{{ asset('uploads/deleteRequest/' ~ delUser.documentSuppression) }}">{{ delUser.documentSuppression|e }}</a>
+
+								</td>
+								<td>
+									<a href="{{ path('deleteUser', {id: delUser.connectUserDel.id})}}" class="btn btn-success">Supprimer</a>
+
+									<a href="{{ path('cancelDeleteUser', {id: delUser.id} )}}" class="btn btn-danger">Annuler</a>
+								</td>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
 		</div>
 
 	{% endblock %}

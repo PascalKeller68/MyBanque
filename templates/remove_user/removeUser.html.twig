@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suppression de compte
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<p>Bonjour, si vous souhaitez supprimer votre compte, veuillez telecharger le document ci-dessous</p>
+		<p>Document de suppression de compte</p>
+		<a href="{{ asset('uploads/' ~ 'MyBanque.pdf') }}">MyBanque (PDF)</a>
+
+		<p>Merci de le remplir, le signé et le soumettre via le formulaire si dessous</p>
+
+		<div>
+
+			{{ form_start(form) }}
+
+
+			{{ form_errors(form) }}
+
+			{{ form_row(form.documentSuppression, {'attr': {'placeholder':'Choix du fichier'}}) }}
+			<button type="submit" class="btn btn-success">Valider</button>
+			<a href="{{ path('home')}}" class="btn btn-danger">Annuler</a>
+
+
+			{{ form_end(form) }}
+		</div>
+
+
+	</div>
+{% endblock %}

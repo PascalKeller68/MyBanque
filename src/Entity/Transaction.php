@@ -26,7 +26,7 @@ class Transaction
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Assert\GreaterThanOrEqual(0)
+     * @Assert\GreaterThanOrEqual(10)
      */
     private $debit;
 

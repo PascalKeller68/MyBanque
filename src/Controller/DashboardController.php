@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Bank;
 use App\Entity\User;
 use App\Entity\Beneficiary;
-use App\Repository\BankRepository;
+use App\Entity\DeleteUser;
+use App\Entity\Transaction;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DashboardController extends AbstractController
 {
@@ -25,12 +28,17 @@ class DashboardController extends AbstractController
             ->getRepository(Beneficiary::class)
             ->findAll();
 
+        $delUsers = $this->getDoctrine()
+            ->getRepository(DeleteUser::class)
+            ->findAll();
+
 
 
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
             'users' => $users,
-            'beneficiarys' => $beneficiarys
+            'beneficiarys' => $beneficiarys,
+            'delUsers' => $delUsers
         ]);
     }
 
@@ -102,6 +110,74 @@ class DashboardController extends AbstractController
             ->find($id);
 
         $manager->remove($beneficiary);
+        $manager->flush();
+        return $this->redirectToRoute('dashboard');
+    }
+
+
+    #[Route('/dashboard/DeleteUser/{id}', name: 'deleteUser')]
+    public function deleteUser($id, ManagerRegistry $manager)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        $banks = $this->getDoctrine()->getRepository(Bank::class)->findBy(['connectAccount' => $user]);
+
+        foreach ($banks as $bank) {
+            $transactions = $this->getDoctrine()->getRepository(Transaction::class)->findBy(['connectBank' => $bank]);
+
+            foreach ($transactions as $transaction) {
+                # code...
+                $bank->removeTransaction($transaction);
+                $manager->remove($transaction);
+            }
+
+            $user->removeBank($bank);
+            $manager->remove($bank);
+        }
+
+        $beneficiarys = $this->getDoctrine()->getRepository(Beneficiary::class)->findBy(['connectUser' => $user]);
+        foreach ($beneficiarys as $beneficiary) {
+            # code...
+            $user->removeBeneficiary($beneficiary);
+            $manager->remove($beneficiary);
+        }
+
+        $deleteRequest = $this->getDoctrine()->getRepository(DeleteUser::class)->findOneBy(['connectUserDel' => $user]);
+
+        //delete file
+        $filesystem = new Filesystem();
+        $path = 'uploads/deleteRequest/' . $deleteRequest->getDocumentSuppression();
+        $filesystem->remove($path);
+
+        $manager->remove($deleteRequest);
+        $manager->remove($user);
+        $manager->flush();
+        return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/dashboard/cancelDeleteUser/{id}', name: 'cancelDeleteUser')]
+    public function cancelDeleteUser($id, ManagerRegistry $manager)
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+
+        $deleteRequest = $this->getDoctrine()
+            ->getRepository(DeleteUser::class)
+            ->find($id);
+
+
+        //dd($deleteRequest);
+
+        //delete file
+        $filesystem = new Filesystem();
+        $path = 'uploads/deleteRequest/' . $deleteRequest->getDocumentSuppression();
+        $filesystem->remove($path);
+
+        $manager->remove($deleteRequest);
         $manager->flush();
         return $this->redirectToRoute('dashboard');
     }

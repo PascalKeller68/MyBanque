@@ -11,11 +11,9 @@
 		<div>
 
 			<form method="post" action="{{ path('virement')}}">
-				{{ form_start(form) }}
-				{{ form_errors(form) }}
-
-
 				<div>
+					{{ form_start(form) }}
+					{{ form_errors(form) }}
 					{{ form_row(form.choixBank, {'label': 'Choix du compte', 'required' : true}) }}
 					{{ form_row(form.choixBeneficiary, {'label': 'Choix du bénéficiare', 'required' : true}) }}
 					{{ form_row(form.description, {'label': 'Description', 'required' : true,'attr': {'placeholder':'Description du virement'}}) }}

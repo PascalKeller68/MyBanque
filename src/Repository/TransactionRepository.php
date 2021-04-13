@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+
 use App\Entity\Transaction;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
 
 /**
  * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,9 +27,13 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * @param string|null $term
      */
-    public function getWithSearchQueryBuilder(): QueryBuilder
+    public function getQueryBuilderByBankId(int $bankId): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('t');
+
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.connectBank = :bankId')
+            ->setParameter('bankId', $bankId);
+
 
         return $qb
             ->orderBy('t.id', 'DESC');

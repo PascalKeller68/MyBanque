@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -19,7 +20,10 @@ class CreateAccountType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('confirmPassword', PasswordType::class)
             //->add('role')
-            ->add('identityFile')
+            ->add('identityFile', FileType::class, [
+                "mapped" => false,
+                "multiple" => false
+            ])
             //->add('validation')
         ;
     }

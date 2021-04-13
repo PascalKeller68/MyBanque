@@ -58,6 +58,16 @@ class CreateAccountController extends AbstractController
 
             $manager = $this->getDoctrine()->getManager();
 
+            /** @var UploadedFile $file */
+            $file = $formRegistration->get('identityFile')->getData();
+            //génrer nouveau nom de fichier
+            $renameFile = md5(uniqid()) . ' - '  . $user->getFirstname() . '.' . $file->guessExtension();
+            //copie du fichier dans le dossier
+            $file->move($this->getParameter('identity_directory'), $renameFile);
+            //stock image dans la base de donnée
+            $user->setIdentityFile($renameFile);
+
+
             $manager->persist($bank);
             $manager->persist($bankA);
 

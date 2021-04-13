@@ -42,9 +42,9 @@
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Opérations</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="{{ path('virement') }}">Virements</a>
-									<a class="dropdown-item" href="{{ path('create_beneficiary') }}">Ajouter un bénéficiare</a>
+									<a class="dropdown-item" href="{{ path('create_beneficiary') }}">Ajouter un bénéficiaire</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Supprimer son compte</a>
+									<a class="dropdown-item" href="{{ path('remove') }}">Supprimer son compte</a>
 								</div>
 							</li>
 						{% endif %}
@@ -69,7 +69,21 @@
 		</div>
 		{% block body %}{% endblock %}
 		{% block javascripts %}
+			<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
 			{{ encore_entry_script_tags('app') }}
+
+
+			{# intégration du rafraichissement après selection du fichier #}
+			<script>
+				$('.dropdown-toggle').dropdown();
+$('.custom-file-input').on('change', function (event) {
+var inputFile = event.currentTarget;
+$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+});
+			</script>
 		{% endblock %}
 	</body>
 </html>
