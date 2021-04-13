@@ -24,21 +24,25 @@
 
 				<div class="collapse navbar-collapse" id="navbarColor01">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
+						<li {% if app.request.attributes.get( '_route' ) starts with 'home' %} class="nav-item active" {% endif %}>
+
 							<a class="nav-link" href="{{ path('home')}}">Accueil
 								{# <span class="sr-only">(current)</span> #}
 							</a>
 						</li>
 						{% if not app.user %}
-							<li class="nav-item">
+
+							<li {% if app.request.attributes.get( '_route' ) starts with 'createaccount' %} class="nav-item active" {% endif %}>
+
 								<a class="nav-link" href="{{ path('createaccount')}}">Créer un compte</a>
 							</li>
 						{% endif %}
 						{% if is_granted('ROLE_USER') -%}
-							<li class="nav-item">
+
+							<li {% if app.request.attributes.get( '_route' ) starts with 'listeCompte' %} class="nav-item active" {% endif %}>
 								<a class="nav-link" href="{{ path('listeCompte') }}">Comptes</a>
 							</li>
-							<li class="nav-item dropdown">
+							<li {% if app.request.attributes.get( '_route' ) starts with 'virement' or app.request.attributes.get( '_route' ) starts with 'create_beneficiary' or app.request.attributes.get( '_route' ) starts with 'remove' %} class="nav-item dropdown active" {% else %} class="nav-item dropdown" {% endif %}>
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Opérations</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="{{ path('virement') }}">Virements</a>
@@ -49,12 +53,14 @@
 							</li>
 						{% endif %}
 						{% if is_granted('ROLE_ADMIN') -%}
-							<li class="nav-item">
+							<li {% if app.request.attributes.get( '_route' ) starts with 'dashboard' %} class="nav-item active" {% endif %}>
+
 								<a class="nav-link" href="{{ path('dashboard')}}">Tableau de bord</a>
 							</li>
 						{% endif %}
 						{% if not app.user %}
-							<li class="nav-item">
+							<li {% if app.request.attributes.get( '_route' ) starts with 'newLogin' %} class="nav-item active" {% endif %}>
+
 								<a class="nav-link" href="{{ path('newLogin')}}">Se connecter</a>
 							</li>
 						{% else %}
@@ -66,24 +72,21 @@
 					</ul>
 				</div>
 			</nav>
-		</div>
-		{% block body %}{% endblock %}
-		{% block javascripts %}
-			<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		</body>
+	</body>
+</html></div>{% block body %}{% endblock %}{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-			{{ encore_entry_script_tags('app') }}
+{{ encore_entry_script_tags('app') }}
 
 
-			{# intégration du rafraichissement après selection du fichier #}
-			<script>
-				$('.dropdown-toggle').dropdown();
+{# intégration du rafraichissement après selection du fichier #}
+<script>
+	$('.dropdown-toggle').dropdown();
 $('.custom-file-input').on('change', function (event) {
 var inputFile = event.currentTarget;
 $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
 });
-			</script>
-		{% endblock %}
-	</body>
-</html>
+</script>{% endblock %}</body></html>
