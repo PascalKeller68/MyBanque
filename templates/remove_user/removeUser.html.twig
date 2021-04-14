@@ -4,29 +4,35 @@
 {% endblock %}
 
 {% block body %}
+
 	<div class="container">
+		<div class="d-flex justify-content-center border border border-dark rounded p-4">
+			<div class="col-12 col-md-8">
+				<p>Bonjour, si vous souhaitez supprimer votre compte, veuillez telecharger le document ci-dessous</p>
+				<p>
+					<span>Document de suppression de compte :</span>
+				</p>
+				<a href="{{ asset('uploads/' ~ 'MyBanque.pdf') }}">MyBanque (PDF)</a>
+				<p></p>
 
-		<p>Bonjour, si vous souhaitez supprimer votre compte, veuillez telecharger le document ci-dessous</p>
-		<p>Document de suppression de compte</p>
-		<a href="{{ asset('uploads/' ~ 'MyBanque.pdf') }}">MyBanque (PDF)</a>
+				<p>Merci de le remplir, le signé et le soumettre via le formulaire si dessous</p>
 
-		<p>Merci de le remplir, le signé et le soumettre via le formulaire si dessous</p>
+				<div>
 
-		<div>
-
-			{{ form_start(form) }}
-
-
-			{{ form_errors(form) }}
-
-			{{ form_row(form.documentSuppression, {'attr': {'placeholder':'Choix du fichier'}}) }}
-			<button type="submit" class="btn btn-success">Valider</button>
-			<a href="{{ path('home')}}" class="btn btn-danger">Annuler</a>
+					{{ form_start(form) }}
 
 
-			{{ form_end(form) }}
+					{{ form_errors(form) }}
+
+					{{ form_row(form.documentSuppression, {'attr': {'placeholder':'Choix du fichier'}}) }}
+					<button type="submit" class="btn btn-success">Valider</button>
+					<a href="{{ path('home')}}" class="btn btn-danger">Annuler</a>
+
+
+					{{ form_end(form) }}
+				</div>
+
+			</div>
 		</div>
-
-
 	</div>
 {% endblock %}

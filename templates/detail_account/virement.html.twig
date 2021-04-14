@@ -6,26 +6,30 @@
 {% block body %}
 
 	<div class="container">
-		<h1>Virement</h1>
+		<div class="d-flex justify-content-center border border border-dark rounded p-4">
+			<div class="col-12 col-md-8 ">
+				<h1>Virement</h1>
 
-		<div>
-
-			<form method="post" action="{{ path('virement')}}">
 				<div>
-					{{ form_start(form) }}
-					{{ form_errors(form) }}
-					{{ form_row(form.choixBank, {'label': 'Choix du compte', 'required' : true}) }}
-					{{ form_row(form.choixBeneficiary, {'label': 'Choix du bénéficiare', 'required' : true}) }}
-					{{ form_row(form.description, {'label': 'Description', 'required' : true,'attr': {'placeholder':'Description du virement'}}) }}
-					{{ form_row(form.debit, {'label': 'Montant du virement', 'required' : true, 'attr': {'placeholder':'0.00'}}) }}
-					{{ form_end(form) }}
-					<button type="submit" class="btn btn-success">Valider</button>
-					<a href="{{ path('virement')}}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
 
+					<form method="post" action="{{ path('virement')}}">
+						<div>
+							{{ form_start(form) }}
+							{{ form_errors(form) }}
+							{{ form_row(form.choixBank, {'label': 'Choix du compte', 'required' : true}) }}
+							{{ form_row(form.choixBeneficiary, {'label': 'Choix du bénéficiare', 'required' : true}) }}
+							{{ form_row(form.description, {'label': 'Description', 'required' : true,'attr': {'placeholder':'Description du virement'}}) }}
+							{{ form_row(form.debit, {'label': 'Montant du virement', 'required' : true, 'attr': {'placeholder':'0.00'}}) }}
+							{{ form_end(form) }}
+							<button type="submit" class="btn btn-success">Valider</button>
+							<a href="{{ path('virement')}}" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
+
+						</div>
+
+
+					</form>
 				</div>
-
-
-			</form>
+			</div>
 		</div>
 
 

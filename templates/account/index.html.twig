@@ -1,48 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vos compte
+{% block title %}Vos comptes
 {% endblock %}
 
 {% block body %}
 	<div class="container">
-		<h1>Liste de comptes</h1>
+		<div class="border border border-dark rounded p-4">
+			<div>
+				<h1>Liste de comptes</h1>
 
-		{% if validation_user %}
+				{% if validation_user %}
 
-			<div class="table-responsive-md">
-				<table class="table table-hover">
-					<caption></caption>
-					<thead>
-						<tr class="table-active">
-							<th scope="col">Nom du compte</th>
-							<th scope="col">Numéro de compte</th>
-							<th scope="col">Solde</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for bank in banks %}
-							<tr>
+					<div class="table-responsive-md">
+						<table class="table table-hover">
+							<caption></caption>
+							<thead>
+								<tr class="table-active">
+									<th scope="col">Nom du compte</th>
+									<th scope="col">Numéro de compte</th>
+									<th scope="col">Solde</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for bank in banks %}
+									<tr>
 
-								<th scope="row">
-									<a href="{{ path('detailAccount', {'id': bank.id} ) }}">{{ bank.bankName|e }}</a>
-								</th>
+										<th scope="row">
+											<a href="{{ path('detailAccount', {'id': bank.id} ) }}">{{ bank.bankName|e }}</a>
+										</th>
 
-								<td>{{ bank.id|e }}</td>
-								<td>{{ bank.bankBalance|e }}</td>
+										<td>{{ bank.id|e }}</td>
+										<td>{{ bank.bankBalance|e }}</td>
 
-							</tr>
-						{% endfor %}
+									</tr>
+								{% endfor %}
 
-					</tbody>
-				</table>
+							</tbody>
+						</table>
+					</div>
+				{% endif %}
+
+				{% if not validation_user %}
+
+					<p>Votre conseiller bancaire n'a pas encore valider votre compte, veuillez patienter</p>
+
+				{% endif %}
 			</div>
-		{% endif %}
-
-		{% if not validation_user %}
-
-			<p>Votre conseiller bancaire n'a pas encore valider votre compte, veuillez patienter</p>
-
-		{% endif %}
+		</div>
 
 
 	</div>

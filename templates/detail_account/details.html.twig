@@ -6,63 +6,65 @@
 {% block body %}
 
 	<div class="container">
-		<div>
-			<table class="table table-hover">
-				<caption></caption>
-				<thead>
-					<tr class="table-active">
-						<th scope="col">Nom du compte</th>
-						<th scope="col">Numéro de compte</th>
-						<th scope="col">Solde</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-
-						<th scope="row">
-							{{ bank.bankName|e }}
-						</th>
-
-						<td>{{ bank.id|e }}</td>
-						<td>{{ bank.bankBalance|e }}</td>
-
-					</tr>
-
-
-				</tbody>
-			</table>
-
-		</div>
-		<div class="table-responsive-md">
-			<table class="table table-hover">
-				<caption></caption>
-				<thead>
-					<tr class="table-active">
-						<th scope="col">N° de transaction</th>
-						<th scope="col">Description</th>
-						<th scope="col">Bénéficiare</th>
-						<th scope="col">Débit</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for tableTransaction in pagination %}
+		<div class="border border border-dark rounded p-4">
+			<div>
+				<table class="table table-hover">
+					<caption></caption>
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom du compte</th>
+							<th scope="col">Numéro de compte</th>
+							<th scope="col">Solde</th>
+						</tr>
+					</thead>
+					<tbody>
 						<tr>
 
-							<th scope="row">{{tableTransaction.id|e }}</th>
-							<td>{{ tableTransaction.description |e }}</td>
+							<th scope="row">
+								{{ bank.bankName|e }}
+							</th>
 
-							<td>{{ tableTransaction.beneficiaryTransaction.name|e }}
-								{{ tableTransaction.beneficiaryTransaction.lastName|e }}</td>
-
-							<td>{{ tableTransaction.debit|e }}</td>
+							<td>{{ bank.id|e }}</td>
+							<td>{{ bank.bankBalance|e }}</td>
 
 						</tr>
-					{% endfor %}
 
-				</tbody>
-			</table>
-			<div class="navigation">
-				{{ knp_pagination_render(pagination) }}
+
+					</tbody>
+				</table>
+
+			</div>
+			<div class="table-responsive-md">
+				<table class="table table-hover table-sm">
+					<caption></caption>
+					<thead>
+						<tr class="table-active">
+							<th scope="col">N° de transaction</th>
+							<th scope="col">Description</th>
+							<th scope="col">Bénéficiare</th>
+							<th scope="col">Débit</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for tableTransaction in pagination %}
+							<tr>
+
+								<th scope="row">{{tableTransaction.id|e }}</th>
+								<td>{{ tableTransaction.description |e }}</td>
+
+								<td>{{ tableTransaction.beneficiaryTransaction.name|e }}
+									{{ tableTransaction.beneficiaryTransaction.lastName|e }}</td>
+
+								<td>{{ tableTransaction.debit|e }}</td>
+
+							</tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+				<div class="navigation d-flex justify-content-center">
+					{{ knp_pagination_render(pagination) }}
+				</div>
 			</div>
 		</div>
 	</div>

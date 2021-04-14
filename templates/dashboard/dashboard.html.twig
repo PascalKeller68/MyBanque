@@ -5,9 +5,9 @@
 
 {% block body %}
 	<div class="container">
-		<div class="col-12">
+		<div class="col-12 border border border-dark rounded p-4 ">
 
-			<div class="table-responsive-md">
+			<div class="table-responsive-md table-bordered">
 				<table class="table table-hover">
 					<caption></caption>
 					<thead>
@@ -19,10 +19,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for user in users %}
-							<tr>
 
-								{% if (user.validation == 0) %}
+						{% for user in users %}
+							{% if (user.validation == 0 ) %}
+								<tr>
 									<th scope="row">
 										{{ user.firstname|e }}
 									</th>
@@ -34,14 +34,15 @@
 										<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
 										<a href="{{ path('suppressionUtilisateur', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
 									</td>
-								{% endif %}
-							</tr>
+								</tr>
+							{% endif %}
 						{% endfor %}
+
 					</tbody>
 				</table>
 			</div>
 
-			<div class="table-responsive-md">
+			<div class="table-responsive-md table-bordered">
 				<table class="table table-hover">
 					<caption></caption>
 					<thead>
@@ -53,11 +54,11 @@
 						</tr>
 					</thead>
 					<tbody>
+
 						{% for beneficiary in beneficiarys %}
-							<tr>
 
-								{% if (beneficiary.validation == 0) %}
-
+							{% if (beneficiary.validation == 0) %}
+								<tr>
 									<th scope="row">
 										{{ beneficiary.connectUser.firstname|e }}
 									</th>
@@ -70,14 +71,16 @@
 
 										<a href="{{ path('suppressionBeneficiaire', {id: beneficiary.id} )}}" class="btn btn-danger">Supprimer</a>
 									</td>
-								{% endif %}
-							</tr>
+								</tr>
+							{% endif %}
+
 						{% endfor %}
 					</tbody>
-				</table>
-			</div>
+				</tbody>
+			</table>
 
-			<div class="table-responsive-md">
+
+			<div class="table-responsive-md table-bordered">
 				<table class="table table-hover">
 					<caption></caption>
 					<thead>
@@ -88,7 +91,10 @@
 						</tr>
 					</thead>
 					<tbody>
+
 						{% for delUser in delUsers %}
+
+
 							<tr>
 
 
@@ -108,11 +114,13 @@
 								</td>
 
 							</tr>
+
+
 						{% endfor %}
 					</tbody>
 				</table>
 			</div>
-
 		</div>
 
-	{% endblock %}
+	</div>
+{% endblock %}
