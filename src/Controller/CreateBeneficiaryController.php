@@ -21,12 +21,12 @@ class CreateBeneficiaryController extends AbstractController
 
         $formBeneficiary->handleRequest($request);
 
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($this->getUser()->getId());
+
 
         if ($formBeneficiary->isSubmitted() && $formBeneficiary->isValid()) {
-
-            $user = $this->getDoctrine()
-                ->getRepository(User::class)
-                ->find($this->getUser()->getId());
 
             $beneficiary->setValidation(0);
             $user->addBeneficiary($beneficiary);
@@ -44,7 +44,8 @@ class CreateBeneficiaryController extends AbstractController
 
         return $this->render('create_beneficiary/beneficiary.html.twig', [
             'controller_name' => 'CreateBeneficiaryController',
-            'form' => $formBeneficiary->createView()
+            'form' => $formBeneficiary->createView(),
+            'validation_user' => $user->getValidation()
         ]);
     }
 }

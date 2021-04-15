@@ -96,7 +96,8 @@ class DetailAccountController extends AbstractController
             'controller_name' => 'DetailAccountController',
             'banks' => $bank,
             'beneficiarys' => $bebeficiary,
-            'form' => $formTransaction->createView()
+            'form' => $formTransaction->createView(),
+            'validation_user' => $user->getValidation()
         ]);
     }
 

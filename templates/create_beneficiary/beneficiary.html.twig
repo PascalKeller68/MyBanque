@@ -8,20 +8,29 @@
 		<div class="d-flex justify-content-center border border border-dark rounded p-4">
 			<div class="col-12 col-md-8">
 				<h1>Ajout d'un bénéficiaire</h1>
-
-				{{ form_start(form) }}
-				{{ form_errors(form) }}
-
-				{{ form_row(form.name, {'label': 'Nom', 'required' : true ,'attr': {'placeholder':'Entrer le nom du bénéficiare'}}) }}
-				{{ form_row(form.lastName, {'label': 'Prénom', 'required' : true ,'attr': {'placeholder':'Entrer le prénom du bénéficiare'}}) }}
-				<!-- Button trigger modal -->
+				{% if not validation_user %}
 
 
-				<button type="submit" class="btn btn-success">
-					Valider</button>
+					{{ form_start(form) }}
+					{{ form_errors(form) }}
 
-				<a href="{{ path('listeCompte')}}" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
-				{{ form_end(form) }}
+					{{ form_row(form.name, {'label': 'Nom', 'required' : true ,'attr': {'placeholder':'Entrer le nom du bénéficiare'}}) }}
+					{{ form_row(form.lastName, {'label': 'Prénom', 'required' : true ,'attr': {'placeholder':'Entrer le prénom du bénéficiare'}}) }}
+					<!-- Button trigger modal -->
+
+
+					<button type="submit" class="btn btn-success">
+						Valider</button>
+
+					<a href="{{ path('listeCompte')}}" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+					{{ form_end(form) }}
+				{% endif %}
+
+				{% if not validation_user %}
+
+					<p>Votre conseiller bancaire n'a pas encore valider votre compte, veuillez patienter</p>
+
+				{% endif %}
 
 			</div>
 		</div>
