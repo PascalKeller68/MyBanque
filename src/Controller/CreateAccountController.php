@@ -61,7 +61,7 @@ class CreateAccountController extends AbstractController
             /** @var UploadedFile $file */
             $file = $formRegistration->get('identityFile')->getData();
             //génrer nouveau nom de fichier
-            $renameFile = md5(uniqid()) . ' - '  . $user->getFirstname() . '.' . $file->guessExtension();
+            $renameFile = md5(uniqid()) . '-'  . $user->getFirstname() . '.' . $file->guessExtension();
             //copie du fichier dans le dossier
             $file->move($this->getParameter('identity_directory'), $renameFile);
             //stock image dans la base de donnée
