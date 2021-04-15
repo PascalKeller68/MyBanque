@@ -8,7 +8,6 @@ Creer la base de donnees mybanque
 migrer les tables
 
 Les 5 comptes banquiers sont automatiquement creer lors de la migration des tables
-
 Voici les identifiants :
 
 Banqiuer 1 :
