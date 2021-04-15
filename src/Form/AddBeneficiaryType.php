@@ -14,9 +14,11 @@ class AddBeneficiaryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['class' => 'tinymce'],
+                'attr' => ['required' => true],
             ])
-            ->add('lastName')
+            ->add('lastName', TextType::class, [
+                'attr' => ['required' => true]
+            ])
             //->add('validation')
             //->add('connectUser')
         ;

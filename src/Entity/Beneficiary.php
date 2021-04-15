@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BeneficiaryRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
@@ -20,11 +22,19 @@ class Beneficiary
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Le nom ne peut contenir de nombre")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Le prénom ne peut contenir de nombre")
      */
     private $lastName;
 

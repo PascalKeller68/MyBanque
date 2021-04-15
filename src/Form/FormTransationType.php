@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function Symfony\Component\String\b;
@@ -31,10 +32,11 @@ class FormTransationType extends AbstractType
     {
 
         $builder
-            ->add('description')
-            ->add('debit', MoneyType::class)
+            ->add('description', TextType::class, ['required' => true])
+            ->add('debit', MoneyType::class, ['required' => true])
 
             ->add('choixBank', EntityType::class, [
+                'required' => true,
                 'class' => Bank::class,
                 'query_builder' => function (EntityRepository $er) {
                     $q = $er->createQueryBuilder('b');

@@ -18,7 +18,19 @@ class FormDeleteUserType extends AbstractType
         $builder
             ->add('documentSuppression', FileType::class, [
                 "mapped" => false,
+                'required' => true,
                 "multiple" => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '8192k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Merci de rentrer un document PDF valide',
+                    ])
+                ],
+
 
             ])
             //->add('connectUserDel')

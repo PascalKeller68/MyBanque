@@ -28,11 +28,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom ne peut contenir de nombre")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre prénom ne peut contenir de nombre")
      */
     private $lastname;
 
@@ -45,10 +53,10 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
-     *      min = 4,
+     *      min = 8,
      *      max = 50,
      *      minMessage = "Vous devez entrer au moins {{ limit }} caractères",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *      maxMessage = "votre mot de passe ne doit pas dépasser {{ limit }} caractères"
      * )
      */
     private $password;
