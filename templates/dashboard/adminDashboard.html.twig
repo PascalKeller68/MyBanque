@@ -15,7 +15,7 @@
 					<thead>
 						<tr class="table-active">
 							<th scope="col">Nom et prénom de l'employé</th>
-							<th scope="col">Carte d'identité</th>
+							<th scope="col">Email</th>
 							<th scope="col">Suppression</th>
 						</tr>
 					</thead>
@@ -30,7 +30,7 @@
 									</th>
 
 									<td>
-										<a href="{{ asset('uploads/identity/' ~ user.identityFile) }}">{{ user.identityFile|e }}</a>
+										{{ user.mail|e }}
 									</td>
 									<td>
 										<a href="{{ path('suppressionAdmin', {'id': user.id} )}}" class="btn btn-danger">Supprimer</a>
