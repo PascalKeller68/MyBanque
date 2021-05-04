@@ -28,6 +28,10 @@ final class Version20210409144345 extends AbstractMigration
 
         $this->addSql('INSERT INTO roles (role_name) VALUES ("ROLE_USER")');
         $this->addSql('INSERT INTO roles (role_name) VALUES ("ROLE_ADMIN")');
+        $this->addSql('INSERT INTO roles (role_name) VALUES ("ROLE_SUPER_ADMIN")');
+
+        $this->addSql('INSERT INTO user (firstname, lastname, mail, password, identity_file, validation) 
+        VALUES ("SuperAdmin", "SuperAdmin", "superadmin@symfony.fr", "$2y$12$eRzKB7kBZrpl2R5yDUwUPOuibHFDhZJSPd96EPXb4E.JmTbl37i0K", "nothing", 1)');
 
         $this->addSql('INSERT INTO user (firstname, lastname, mail, password, identity_file, validation) 
         VALUES ("Banquier1", "Banquier1", "banquier1@symfony.fr", "$2y$12$CWHHp8Bi3.Y67tbhAbkBZeAmP5vZCym4yNwSXp2QlrzuVYDUniNCK", "nothing", 1)');
@@ -45,7 +49,12 @@ final class Version20210409144345 extends AbstractMigration
         VALUES ("Banquier5", "Banquier5", "banquier5@symfony.fr", "$2y$12$Fj3IZn8jtLRf/lkXJTMYdezdT58QbdjtjPlUrjskDoV3PDcZTFwaO", "nothing", 1)');
 
 
-        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 1)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (3, 1)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 2)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 3)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 4)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 5)');
+        $this->addSql('INSERT INTO roles_user (roles_id, user_id) VALUES (2, 6)');
     }
 
     public function down(Schema $schema): void
