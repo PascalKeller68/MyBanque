@@ -6,6 +6,7 @@ use App\Entity\Bank;
 use App\Entity\User;
 use App\Entity\Roles;
 use App\Form\CreateAccountType;
+use App\Form\CreateFormAdminType;
 use App\Repository\RolesRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ManagerRegistry;
@@ -81,6 +82,48 @@ class CreateAccountController extends AbstractController
 
         return $this->render(
             'create_account\registration.html.twig',
+            ['form' => $formRegistration->createView()]
+        );
+    }
+
+    #[Route('/creerAdmin', name: 'createAdmin')]
+    public function createAdmin(Request $request, ManagerRegistry $manager, UserPasswordEncoderInterface $encoder)
+    {
+
+        $user = new User();
+
+        $rolesRepository = $this->getDoctrine()->getRepository(Roles::class);
+        $role = $rolesRepository->findOneBy(['roleName' => 'ROLE_ADMIN']);
+
+        $user->addRolesUtilisateur($role); 
+        
+
+        $formRegistration = $this->createForm(CreateFormAdminType::class, $user);
+
+        $formRegistration->handleRequest($request);
+        // $user->setRole(1);
+        $user->getRolesUtilisateur(2);
+        $user->setValidation(true);
+        $user->setIdentityFile('nothing');
+        
+       // dd($user);
+
+        if ($formRegistration->isSubmitted() && $formRegistration->isValid()) {
+
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+
+            $user->setPassword($hash);
+
+            $manager = $this->getDoctrine()->getManager();            
+           
+            $manager->persist($user);
+
+            $manager->flush();
+            return $this->redirectToRoute('adminDashboard');
+        }
+
+        return $this->render(
+            'create_account\createAdmin.html.twig',
             ['form' => $formRegistration->createView()]
         );
     }

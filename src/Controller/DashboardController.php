@@ -42,6 +42,32 @@ class DashboardController extends AbstractController
         ]);
     }
 
+    #[Route('/admin', name: 'adminDashboard')]
+    public function adminDashboard(): Response
+    {
+
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
+        $beneficiarys = $this->getDoctrine()
+            ->getRepository(Beneficiary::class)
+            ->findAll();
+
+        $delUsers = $this->getDoctrine()
+            ->getRepository(DeleteUser::class)
+            ->findAll();
+
+
+
+        return $this->render('dashboard/adminDashboard.html.twig', [
+            'controller_name' => 'DashboardController',
+            'users' => $users,
+            'beneficiarys' => $beneficiarys,
+            'delUsers' => $delUsers
+        ]);
+    }
+
     #[Route('/dashboard/add/{id}', name: 'validationUtilisateur')]
     public function validationUtilisateur($id, ManagerRegistry $manager)
     {
@@ -80,6 +106,20 @@ class DashboardController extends AbstractController
         $manager->remove($user);
         $manager->flush();
         return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/admin/removeAdmin/{id}', name: 'suppressionAdmin')]
+    public function suppressionAdmin($id, ManagerRegistry $manager)
+    {
+        $manager = $this->getDoctrine()->getManager();       
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        $manager->remove($user);
+        $manager->flush();
+        return $this->redirectToRoute('adminDashboard');
     }
 
     #[Route('/dashboard/addBene/{id}', name: 'validationBeneficiaire')]

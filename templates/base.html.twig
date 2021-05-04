@@ -61,6 +61,12 @@
 								<a class="nav-link" href="{{ path('dashboard')}}">Tableau de bord</a>
 							</li>
 						{% endif %}
+						{% if is_granted('ROLE_SUPER_ADMIN') -%}
+							<li {% if app.request.attributes.get( '_route' ) starts with 'adminDashboard' %} class="nav-item active" {% endif %}>
+
+								<a class="nav-link" href="{{ path('adminDashboard')}}">Super Administrateur</a>
+							</li>
+						{% endif %}
 						{% if not app.user %}
 							<li {% if app.request.attributes.get( '_route' ) starts with 'newLogin' %} class="nav-item active" {% endif %}>
 

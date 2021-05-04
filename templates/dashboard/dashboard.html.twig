@@ -7,13 +7,12 @@
 	<div class="container">
 		<div class="col-12 border border border-dark rounded p-4 ">
 
-			<div class="table-responsive-md table-bordered">
+			<div class="table-responsive-md table-bordered mb-4">
 				<table class="table table-hover">
 					<caption></caption>
 					<thead>
 						<tr class="table-active">
-							<th scope="col">Nom du client</th>
-							<th scope="col">Prénom du client</th>
+							<th scope="col">Nom et prénom du client</th>
 							<th scope="col">Carte d'identité</th>
 							<th scope="col">Etat</th>
 						</tr>
@@ -25,8 +24,8 @@
 								<tr>
 									<th scope="row">
 										{{ user.firstname|e }}
+										{{ user.lastname|e }}
 									</th>
-									<td>{{ user.lastname|e }}</td>
 									<td>
 										<a href="{{ asset('uploads/identity/' ~ user.identityFile) }}">{{ user.identityFile|e }}</a>
 									</td>
@@ -42,14 +41,13 @@
 				</table>
 			</div>
 
-			<div class="table-responsive-md table-bordered">
+			<div class="table-responsive-md table-bordered mb-4">
 				<table class="table table-hover">
 					<caption></caption>
 					<thead>
 						<tr class="table-active">
-							<th scope="col">Nom du client</th>
-							<th scope="col">Nom du bénéficiaire</th>
-							<th scope="col">prénom du bénéficiaire</th>
+							<th scope="col">Nom et prénom du client</th>
+							<th scope="col">Nom et prénom du bénéficiaire</th>
 							<th scope="col">Etat</th>
 						</tr>
 					</thead>
@@ -61,11 +59,12 @@
 								<tr>
 									<th scope="row">
 										{{ beneficiary.connectUser.firstname|e }}
+										{{ beneficiary.connectUser.lastname|e }}
 									</th>
 									<th>
 										{{ beneficiary.name|e }}
+										{{ beneficiary.lastname|e }}
 									</th>
-									<td>{{ beneficiary.lastname|e }}</td>
 									<td>
 										<a href="{{ path('validationBeneficiaire', {id: beneficiary.id} )}}" class="btn btn-success">Valider</a>
 
@@ -76,8 +75,8 @@
 
 						{% endfor %}
 					</tbody>
-				</tbody>
-			</table>
+				</table>
+			</div>
 
 
 			<div class="table-responsive-md table-bordered">
@@ -85,7 +84,7 @@
 					<caption></caption>
 					<thead>
 						<tr class="table-active">
-							<th scope="col">Nom du client</th>
+							<th scope="col">Nom et prénom du client</th>
 							<th scope="col">Fichier de demande de suppression</th>
 							<th scope="col">Etat</th>
 						</tr>
@@ -121,6 +120,5 @@
 				</table>
 			</div>
 		</div>
-
 	</div>
-{% endblock %}
+</div>{% endblock %}

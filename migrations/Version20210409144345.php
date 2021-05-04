@@ -40,7 +40,7 @@ final class Version20210409144345 extends AbstractMigration
         VALUES ("Banquier2", "Banquier2", "banquier2@symfony.fr", "$2y$12$GZNZ4Uymmv5FIQba9zfg8etA93SdMafXjfccSlRhmS51XNdrKS0uu", "nothing", 1)');
 
         $this->addSql('INSERT INTO user (firstname, lastname, mail, password, identity_file, validation) 
-        VALUES ("Banquier3", "Banquier3", "banquier3@symfony.fr", "$2y$12$YYrBfGl66Ic5/rfuikmR6.3/h0npaxvrccvuDKkL84AO.H4VPteI", "nothing", 1)');
+        VALUES ("Banquier3", "Banquier3", "banquier3@symfony.fr", "$2y$12$4guJcTRw7cS5JZ3onhH4nO4RsQ2x8TvCwUW5ssIsUe7C6gzHM.KEG", "nothing", 1)');
 
         $this->addSql('INSERT INTO user (firstname, lastname, mail, password, identity_file, validation) 
         VALUES ("Banquier4", "Banquier4", "banquier4@symfony.fr", "$2y$12$lBjxgx6m6aHn.pspHkMBKOIjWXNAvlk7JO45m9Ao21DrenRm1l776", "nothing", 1)');
