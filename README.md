@@ -7,8 +7,14 @@ Creer la base de donnees mybanque
 
 migrer les tables
 
-Les 5 comptes banquiers sont automatiquement creer lors de la migration des tables
+
+
+Les 5 comptes banquiers et un superadmin qui sont automatiquement creer lors de la migration des tables
 Voici les identifiants :
+
+Superadmin :
+Email : superadmin@symfony.fr
+Mdp :   superadmin
 
 Banqiuer 1 :
 Email : banquier1@symfony.fr
