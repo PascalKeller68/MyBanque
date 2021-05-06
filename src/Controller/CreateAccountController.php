@@ -7,11 +7,8 @@ use App\Entity\User;
 use App\Entity\Roles;
 use App\Form\CreateAccountType;
 use App\Form\CreateFormAdminType;
-use App\Repository\RolesRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -28,7 +25,6 @@ class CreateAccountController extends AbstractController
 
         $user = new User();
 
-
         $rolesRepository = $this->getDoctrine()->getRepository(Roles::class);
         $role = $rolesRepository->findOneBy(['roleName' => 'ROLE_USER']);
 
@@ -38,7 +34,6 @@ class CreateAccountController extends AbstractController
         $bank = new Bank();
         $bank->setBankName('Compte Courant');
         $bank->setBankBalance(1500);
-
 
         $bankA = new Bank();
         $bankA->setBankName('Livret A');
@@ -67,7 +62,6 @@ class CreateAccountController extends AbstractController
             $file->move($this->getParameter('identity_directory'), $renameFile);
             //stock image dans la base de donnée
             $user->setIdentityFile($renameFile);
-
 
             $manager->persist($bank);
             $manager->persist($bankA);
@@ -101,13 +95,10 @@ class CreateAccountController extends AbstractController
         $formRegistration = $this->createForm(CreateFormAdminType::class, $user);
 
         $formRegistration->handleRequest($request);
-        // $user->setRole(1);
         $user->getRolesUtilisateur(2);
         $user->setValidation(true);
         $user->setIdentityFile('nothing');
         
-       // dd($user);
-
         if ($formRegistration->isSubmitted() && $formRegistration->isValid()) {
 
             $hash = $encoder->encodePassword($user, $user->getPassword());

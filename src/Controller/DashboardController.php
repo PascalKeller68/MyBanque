@@ -11,7 +11,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DashboardController extends AbstractController
@@ -31,8 +30,6 @@ class DashboardController extends AbstractController
         $delUsers = $this->getDoctrine()
             ->getRepository(DeleteUser::class)
             ->findAll();
-
-
 
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
@@ -57,8 +54,6 @@ class DashboardController extends AbstractController
         $delUsers = $this->getDoctrine()
             ->getRepository(DeleteUser::class)
             ->findAll();
-
-
 
         return $this->render('dashboard/adminDashboard.html.twig', [
             'controller_name' => 'DashboardController',
@@ -102,7 +97,6 @@ class DashboardController extends AbstractController
             $manager->remove($bank);
         }
 
-
         $manager->remove($user);
         $manager->flush();
         return $this->redirectToRoute('dashboard');
@@ -125,7 +119,6 @@ class DashboardController extends AbstractController
     #[Route('/dashboard/addBene/{id}', name: 'validationBeneficiaire')]
     public function validationBeneficiary($id, ManagerRegistry $manager)
     {
-
 
         $beneficiary = $this->getDoctrine()
             ->getRepository(Beneficiary::class)
@@ -208,9 +201,6 @@ class DashboardController extends AbstractController
         $deleteRequest = $this->getDoctrine()
             ->getRepository(DeleteUser::class)
             ->find($id);
-
-
-        //dd($deleteRequest);
 
         //delete file
         $filesystem = new Filesystem();

@@ -20,9 +20,7 @@ class RemoveUserController extends AbstractController
 
         $delUser = new DeleteUser();
         $formDelete = $this->createForm(FormDeleteUserType::class, $delUser);
-
         $formDelete->handleRequest($request);
-
 
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {
 
