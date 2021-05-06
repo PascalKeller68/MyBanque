@@ -27,7 +27,7 @@
 										{{ user.lastname|e }}
 									</th>
 									<td>
-										<a href="{{ asset('uploads/identity/' ~ user.identityFile) }}">{{ user.identityFile|e }}</a>
+										<a target= "_blank" href="{{ asset('uploads/identity/' ~ user.identityFile) }}">{{ user.identityFile|e }}</a>
 									</td>
 									<td>
 										<a href="{{ path('validationUtilisateur', {'id': user.id})}}" class="btn btn-success">Valider</a>
@@ -103,7 +103,7 @@
 								</th>
 
 								<td>
-									<a href="{{ asset('uploads/deleteRequest/' ~ delUser.documentSuppression) }}">{{ delUser.documentSuppression|e }}</a>
+									<a target= "_blank" href="{{ asset('uploads/deleteRequest/' ~ delUser.documentSuppression) }}">{{ delUser.documentSuppression|e }}</a>
 
 								</td>
 								<td>

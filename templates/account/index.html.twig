@@ -6,8 +6,11 @@
 {% block body %}
 	<div class="container">
 		<div class="border border border-dark rounded p-4">
+			
+
 			<div>
 				<h1>Liste de comptes</h1>
+				<a href="{{ path('virement')}}" class="btn btn-success mb-4">Faire un virement</a>
 
 				{% if validation_user %}
 

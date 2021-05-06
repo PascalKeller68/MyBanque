@@ -7,15 +7,15 @@ use App\Entity\User;
 use App\Entity\Beneficiary;
 use App\Entity\Transaction;
 use App\Form\FormTransationType;
-use App\Repository\TransactionRepository;
-
 use function Symfony\Component\String\s;
+use App\Repository\TransactionRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -47,22 +47,12 @@ class DetailAccountController extends AbstractController
 
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $array =  $request->request->get('form_transation');
-            //dd($array);
 
             $bankId = $propertyAccessor->getValue($array, '[choixBank]');
-
-            //dd($bankId);
             $beneficiaryId = $propertyAccessor->getValue($array, '[choixBeneficiary]');
+
             $debit = $propertyAccessor->getValue($array, '[debit]');
             $debit = (float) s($debit)->replace(",", ".")->toString();
-
-
-
-
-            //dd($beneficiaryId);
-
-            //dd($propertyAccessor->getValue($array, '[choixBank]'));
-
 
             $manager = $this->getDoctrine()->getManager();
 
@@ -74,22 +64,18 @@ class DetailAccountController extends AbstractController
                 ->getRepository(Beneficiary::class)
                 ->find($beneficiaryId);
 
-
-
             $transaction->setConnectBank($bank);
             $transaction->setBeneficiaryTransaction($beneficiary);
+            $transaction->setCreatedAt(new \DateTime());
 
             $balanceNow = $bank->getBankBalance();
             $newBalance = $balanceNow - $debit;
 
             $bank->setBankBalance($newBalance);
 
-            //$bank->addTransation($inforequest);
-
             $manager->persist($transaction);
-
             $manager->flush();
-            return $this->redirectToRoute('virement');
+            return $this->redirectToRoute('detailAccount', array('id' => $bankId));
         }
 
         return $this->render('detail_account/virement.html.twig', [

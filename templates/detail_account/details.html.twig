@@ -7,6 +7,8 @@
 
 	<div class="container">
 		<div class="border border border-dark rounded p-4">
+			<a href="{{ path('virement')}}" class="btn btn-success mb-4">Faire un virement</a>
+
 			<div>
 				<table class="table table-hover">
 					<caption></caption>
@@ -40,6 +42,7 @@
 					<thead>
 						<tr class="table-active">
 							<th scope="col">N° de transaction</th>
+							<th scope="col">Date</th>
 							<th scope="col">Description</th>
 							<th scope="col">Bénéficiare</th>
 							<th scope="col">Débit</th>
@@ -50,11 +53,10 @@
 							<tr>
 
 								<th scope="row">{{tableTransaction.id|e }}</th>
-								<td>{{ tableTransaction.description |e }}</td>
-
+								<td>{{ tableTransaction.createdAt | date('d/m/Y') }}</td>
+								<td>{{ tableTransaction.description|e }}</td>
 								<td>{{ tableTransaction.beneficiaryTransaction.name|e }}
 									{{ tableTransaction.beneficiaryTransaction.lastName|e }}</td>
-
 								<td>{{ tableTransaction.debit|e }}</td>
 
 							</tr>

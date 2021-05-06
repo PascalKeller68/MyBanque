@@ -43,6 +43,11 @@ class Transaction
     private $choixBank;
     private $choixBeneficiary;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +121,18 @@ class Transaction
     public function setChoixBeneficiary(?Beneficiary $choixBeneficiary): self
     {
         $this->choixBeneficiary = $choixBeneficiary;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

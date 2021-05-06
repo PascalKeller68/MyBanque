@@ -36,7 +36,7 @@ class TransactionRepository extends ServiceEntityRepository
 
 
         return $qb
-            ->orderBy('t.id', 'DESC');
+            ->orderBy('t.createdAt', 'DESC');
     }
 
     // /**
